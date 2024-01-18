@@ -6,3 +6,4 @@ If no barcode is found in one image, the image is put into the previous detected
 - pyzbar
   - pyzbar needs zbar (c library) installed.
   - on macOS: `brew install zbar`
+  - on Linux: `sudo apt install libzbar0`
