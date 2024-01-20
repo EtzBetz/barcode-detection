@@ -4,6 +4,6 @@ If no barcode is found in one image, the image is put into the previous detected
 # Requirements
 - opencv-python
 - pyzbar
-  - pyzbar needs zbar (c library) installed.
+  - pyzbar needs zbar (c library) installed, on linux zbar has ffmpeg as dependency. On macOS it is automatically installed with brew.
   - on macOS: `brew install zbar`
-  - on Linux: `sudo apt install libzbar0`
+  - on Linux: `sudo apt install libzbar0 ffmpeg`
