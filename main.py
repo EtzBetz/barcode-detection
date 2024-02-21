@@ -50,7 +50,7 @@ if __name__ == "__main__":
     print(f'minimum valid barcode: {min_barcode_int}')
     print(f'maximum valid barcode: {max_barcode_int}')
     if len(sys.argv) != 3:
-    print(f'to adjust these, run script with parameters: ... main.py <min_int> <max_int>')
+        print(f'to adjust these, run script with parameters: ... main.py <min_int> <max_int>')
 
     script_path, script_name = os.path.split(realpath(__file__))
     path_input = f'{script_path}/images/in/'
