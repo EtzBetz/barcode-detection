@@ -44,11 +44,12 @@ if __name__ == "__main__":
     min_barcode_int = 1000000
     max_barcode_int = 7000000
     if len(sys.argv) >= 2:
-        min_barcode_int = sys.argv[1]
+        min_barcode_int = int(sys.argv[1])
     if len(sys.argv) >= 3:
-        max_barcode_int = sys.argv[2]
+        max_barcode_int = int(sys.argv[2])
     print(f'minimum valid barcode: {min_barcode_int}')
     print(f'maximum valid barcode: {max_barcode_int}')
+    if len(sys.argv) != 3:
     print(f'to adjust these, run script with parameters: ... main.py <min_int> <max_int>')
 
     script_path, script_name = os.path.split(realpath(__file__))
@@ -60,7 +61,7 @@ if __name__ == "__main__":
     reset_count = 0
     for child in sorted(Path(path_input).iterdir()):
         if child.is_file():
-            results = scan_barcodes(child.name, 1000000, 7000000)
+            results = scan_barcodes(child.name, min_barcode_int, max_barcode_int)
             if len(results) == 1:
                 previous_result = results[0]
                 reset_count = 0
