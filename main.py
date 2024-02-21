@@ -71,3 +71,4 @@ if __name__ == "__main__":
                     previous_result += f"_{result}"
             reset_count += 1
             shutil.copyfile(f"{path_input}{child.name}", f"{path_output}{previous_result}-{reset_count}.jpg")
+    print("finished.")
