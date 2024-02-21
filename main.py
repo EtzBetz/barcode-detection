@@ -1,4 +1,5 @@
 import os
+from os.path import realpath
 from pathlib import Path
 import shutil
 import cv2
@@ -39,12 +40,13 @@ def validate_barcode(filename, barcode_text) -> bool:
 
 
 if __name__ == "__main__":
-    path = './images/in/'
-    path_name = f"images/out/"
-    os.makedirs(path_name, exist_ok=True)
+    script_path, script_name = os.path.split(realpath(__file__))
+    path_input = f'{script_path}/images/in/'
+    path_output = f'{script_path}/images/out/'
+    os.makedirs(path_output, exist_ok=True)
     previous_result = None
     reset_count = 0
-    for child in sorted(Path(path).iterdir()):
+    for child in sorted(Path(path_input).iterdir()):
         if child.is_file():
             results = scan_barcodes(child.name)
             if len(results) == 1:
@@ -56,4 +58,4 @@ if __name__ == "__main__":
                 for result in results[1:]:
                     previous_result += f"_{result}"
             reset_count += 1
-            shutil.copyfile(f"{path}{child.name}", f"{path_name}{previous_result}-{reset_count}.jpg")
+            shutil.copyfile(f"{path_input}{child.name}", f"{path_output}{previous_result}-{reset_count}.jpg")
