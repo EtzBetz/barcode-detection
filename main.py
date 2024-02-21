@@ -54,6 +54,7 @@ if __name__ == "__main__":
     script_path, script_name = os.path.split(realpath(__file__))
     path_input = f'{script_path}/images/in/'
     path_output = f'{script_path}/images/out/'
+    os.makedirs(path_input, exist_ok=True)
     os.makedirs(path_output, exist_ok=True)
     previous_result = None
     reset_count = 0
