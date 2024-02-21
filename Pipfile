@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 opencv-python = "*"
 pyzbar = "*"
+opencv-python-headless = "*"
+numpy = "*"
 
 [dev-packages]
 
