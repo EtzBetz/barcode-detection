@@ -12,7 +12,7 @@ from pyzbar.wrapper import ZBarSymbol
 debug_output = True
 
 
-def scan_barcodes(image_name, min_barcode, max_barcode) -> [str]:
+def scan_barcodes(image_name, min_barcode, max_barcode, do_manual_input) -> [str]:
     image_path = f"images/in/{image_name}"
     img = cv2.imread(image_path)
     barcodes = decode(img, symbols=[ZBarSymbol.CODE128])
@@ -34,15 +34,18 @@ def scan_barcodes(image_name, min_barcode, max_barcode) -> [str]:
         if manipulation_result:
             return barcode_results
         if debug_output: print(f"{child.name}: no barcode found.")
-        manual_input(img, barcode_results)
+        if do_manual_input == 1: manual_input(img, barcode_results)
     return barcode_results
 
 
 def manual_input(img, barcode_results):
     cv2.imshow('bw image', img)
-    cv2.waitKey()
+    cv2.waitKey(1)
     ans = input("number: ")
-    print(ans)
+    # print(f"input received: '{ans}'")
+    if ans.isdigit():
+        barcode_results.append(int(ans))
+    return
 
 
 def manipulate_image(img, image_name, min_barcode, max_barcode, barcode_results, threshold):
@@ -85,13 +88,15 @@ def validate_barcode(filename, barcode_text, min_int, max_int) -> bool:
 if __name__ == "__main__":
     min_barcode_int = 1000000
     max_barcode_int = 7000000
-    if len(sys.argv) >= 3:
+    ask_manual = 0
+    if len(sys.argv) >= 4:
         min_barcode_int = int(sys.argv[1])
         max_barcode_int = int(sys.argv[2])
+        ask_manual = int(sys.argv[3])
     print(f'minimum valid barcode: {min_barcode_int}')
     print(f'maximum valid barcode: {max_barcode_int}')
-    if len(sys.argv) != 3:
-        print(f'to adjust these, run script with parameters: ... main.py <min_int> <max_int>')
+    if len(sys.argv) != 4:
+        print(f'to adjust these, run script with parameters: ... main.py <min_int> <max_int> <manual_input(0/1)>')
 
     script_path, script_name = os.path.split(realpath(__file__))
     path_input = f'{script_path}/images/in/'
@@ -108,7 +113,7 @@ if __name__ == "__main__":
     barcode_map[previous_result] = [0, []]
     for index, child in enumerate(sorted(Path(path_input).iterdir())):
         if child.is_file():
-            results = scan_barcodes(child.name, min_barcode_int, max_barcode_int)
+            results = scan_barcodes(child.name, min_barcode_int, max_barcode_int, ask_manual)
             # print(results)
             if len(results) > 1:
                 result_multiple = True
